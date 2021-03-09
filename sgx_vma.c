@@ -261,9 +261,30 @@ static int sgx_vma_access(struct vm_area_struct *vma, unsigned long addr,
 	return (ret < 0 && ret != -ECANCELED) ? ret : i;
 }
 
+bool
+lock_safe(struct vm_area_struct *area, unsigned long addr)
+{
+    return true;
+}
+
+bool
+unlock_safe(struct vm_area_struct *area, unsigned long addr)
+{
+    return true;
+}
+
+bool
+operation_allowed( struct vm_area_struct *area, unsigned long addr, int flags)
+{
+    return true;
+}
+
 const struct vm_operations_struct sgx_vm_ops = {
 	.close = sgx_vma_close,
 	.open = sgx_vma_open,
 	.fault = sgx_vma_fault,
 	.access = sgx_vma_access,
+    .lock_safe = lock_safe,
+    .unlock_safe = unlock_safe,
+    .operation_allowed = operation_allowed,
 };
